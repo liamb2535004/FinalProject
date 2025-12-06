@@ -1,0 +1,39 @@
+package org.liamb;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@ToString
+@EqualsAndHashCode
+@Getter
+public class Department {
+    private String departmentId;
+    @Setter private String departmentName;
+    private static int nextId = 1;
+
+    public Department(String departmentName) {
+        if (isDepartmentNameValid(departmentName)) {
+            this.departmentId = String.format("D%02d", nextId++);
+            this.departmentName = departmentName;
+        } else {
+            this.departmentId = null;
+            this.departmentName = null;
+        }
+    }
+
+    static boolean isDepartmentNameValid(String departmentName) {
+        if (departmentName == null || departmentName.isBlank()) {
+            return false;
+        }
+
+        for (int idx = 0; idx < departmentName.length(); idx++) {
+            if (!Character.isLetter(departmentName.charAt(idx)) && departmentName.charAt(idx) != ' ') {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
