@@ -10,7 +10,12 @@ public class Assignment {
     private ArrayList<Integer> scores;
     private static int nextId = 1;
 
-
+    public Assignment(String assignmentName, double weight) {
+        this.assignmentId = String.format("%02d", nextId++);
+        this.assignmentName = assignmentName;
+        this.weight = weight;
+        generateRandomScore();
+    }
 
     double calcAssignmentAvg() {
         int sum = 0;
