@@ -1,6 +1,7 @@
 package org.liamb;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Assignment {
     private String assignmentId;
@@ -15,5 +16,24 @@ public class Assignment {
             sum += score;
         }
         int avg = sum / scores.size();
+    }
+
+    void generateRandomScore() {
+        Random random = new Random();
+        for (int i = 0; i < scores.size(); i++) {
+            int rand1 = random.nextInt(11);
+
+            int rand2 = switch (rand1) {
+                case 0 -> random.nextInt(60);
+                case 1, 2 -> random.nextInt(60, 70);
+                case 3, 4 -> random.nextInt(70, 80);
+                case 5, 6, 7, 8 -> random.nextInt(80, 90);
+                case 9, 10 -> random.nextInt(90, 101);
+                default -> 0;
+            };
+
+            scores.set(i, rand2);
+        }
+
     }
 }
