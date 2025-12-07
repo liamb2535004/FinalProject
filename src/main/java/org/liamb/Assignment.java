@@ -1,31 +1,35 @@
 package org.liamb;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Assignment {
     private String assignmentId;
     private String assignmentName;
     private double weight;
-    private ArrayList<Integer> scores;
+    private List<Integer> scores;
     private static int nextId = 1;
 
     public Assignment(String assignmentName, double weight) {
-        this.assignmentId = String.format("%02d", nextId++);
+        this.assignmentId = String.format("A%02d", nextId++);
         this.assignmentName = assignmentName;
         this.weight = weight;
-        generateRandomScore();
+        this.scores = new ArrayList<>();
     }
 
-    double calcAssignmentAvg() {
-        int sum = 0;
+    public double calcAssignmentAvg() {
+        if (scores.isEmpty()) {
+            return 0;
+        }
+        double sum = 0;
         for (int score : scores) {
             sum += score;
         }
-        return (double) sum / scores.size();
+        return sum / scores.size();
     }
 
-    void generateRandomScore() {
+    public void generateRandomScore() {
         Random random = new Random();
         for (int i = 0; i < scores.size(); i++) {
             int rand1 = random.nextInt(11);
