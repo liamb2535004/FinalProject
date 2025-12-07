@@ -32,6 +32,11 @@ public class Address {
         }
     }
 
+    /**
+     * checks if the postal code has a length of 6 and follows the CDCDCD format, where C is a letter and D is a digit
+     * @param postalCode the postal code to be verified
+     * @return true if the postal code is valid, false if it is invalid
+     */
     static boolean isPostalCodeValid(String postalCode) {
         if (postalCode == null || postalCode.length() != 6) {
             return false;
