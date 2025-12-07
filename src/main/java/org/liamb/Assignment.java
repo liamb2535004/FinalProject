@@ -10,12 +10,14 @@ public class Assignment {
     private ArrayList<Integer> scores;
     private static int nextId = 1;
 
-    void calcAssignmentAvg() {
+
+
+    double calcAssignmentAvg() {
         int sum = 0;
         for (int score : scores) {
             sum += score;
         }
-        int avg = sum / scores.size();
+        return (double) sum / scores.size();
     }
 
     void generateRandomScore() {
