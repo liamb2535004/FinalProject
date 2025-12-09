@@ -68,7 +68,11 @@ public class Address {
         BC,
         NB,
         NS,
-        PEI,
-        NL
+        PE,
+        QC,
+        NL,
+        NT,
+        NU,
+        YT
     }
 }
