@@ -23,6 +23,6 @@ public class Util {
             }
         }
 
-        return String.join(" ", words);
+        return String.join(" ", words).trim();
     }
 }
