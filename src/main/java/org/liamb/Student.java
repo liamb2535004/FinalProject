@@ -38,6 +38,14 @@ public class Student {
         return course.dropStudent(this);
     }
 
+    public String toSimplifiedString() {
+        return "Student{" +
+                "studentId='" + studentId + '\'' +
+                ", studentName='" + studentName + '\'' +
+                ", department=" + department +
+                '}';
+    }
+
     public enum Gender {
         FEMALE,
         MALE
