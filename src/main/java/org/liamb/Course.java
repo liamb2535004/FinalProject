@@ -20,4 +20,12 @@ public class Course {
         this.assignments = new ArrayList<>();
         this.registeredStudents = new ArrayList<>();
     }
+
+    public boolean isAssignmentWeightValid() {
+        double totalWeight = 0.0;
+        for (Assignment assignment : assignments) {
+            totalWeight += assignment.getWeight();
+        }
+        return (totalWeight == 100);
+    }
 }
