@@ -29,6 +29,15 @@ public class Student {
         return course.registerStudent(this);
     }
 
+    public boolean dropCourse(Course course) {
+        if (course == null || !this.registeredCourses.contains(course)) {
+            return false;
+        }
+
+        this.registeredCourses.remove(course);
+        return course.dropStudent(this);
+    }
+
     public enum Gender {
         FEMALE,
         MALE
