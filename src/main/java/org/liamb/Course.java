@@ -1,5 +1,6 @@
 package org.liamb;
 
+import java.lang.module.FindException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,20 @@ public class Course {
         for (Assignment assignment : this.assignments) {
             List<Integer> assignmentScores = assignment.getScores();
             assignmentScores.add(-1);
+        }
+        return true;
+    }
+
+    public boolean dropStudent(Student student) {
+        if (student == null) {
+            return false;
+        }
+        this.registeredStudents.remove(student);
+
+        int index = this.registeredStudents.indexOf(student);
+        for (Assignment assignment : this.assignments) {
+            List<Integer> assignmentScores = assignment.getScores();
+            assignmentScores.remove(index);
         }
         return true;
     }
