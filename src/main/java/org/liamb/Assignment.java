@@ -50,6 +50,6 @@ public class Assignment {
 
     @Override
     public String toString() {
-        return String.format("%s%s (%f)", assignmentName, assignmentId, weight);
+        return String.format("%s, ID: %s, Weight: %f", assignmentName, assignmentId, weight);
     }
 }
