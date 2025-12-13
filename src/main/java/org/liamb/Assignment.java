@@ -1,14 +1,16 @@
 package org.liamb;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class Assignment {
-    private final String assignmentId;
-    private final String assignmentName;
-    private final double weight;
-    private final List<Integer> scores;
+    @Getter private final String assignmentId;
+    @Getter private final String assignmentName;
+    @Getter private final double weight;
+    @Getter private final List<Integer> scores;
 
     private static int nextId = 1;
 
@@ -30,11 +32,12 @@ public class Assignment {
         return sum / scores.size();
     }
 
-    public void generateRandomScore() {
+    public void generateRandomScore(int numStudents) {
         Random random = new Random();
-        for (int i = 0; i < scores.size(); i++) {
-            int rand1 = random.nextInt(11);
+        scores.clear();
 
+        for (int i = 0; i < numStudents; i++) {
+            int rand1 = random.nextInt(11);
             int rand2 = switch (rand1) {
                 case 0 -> random.nextInt(60);
                 case 1, 2 -> random.nextInt(60, 70);
@@ -44,12 +47,12 @@ public class Assignment {
                 default -> 0;
             };
 
-            scores.set(i, rand2);
+            scores.add(rand2);
         }
     }
 
     @Override
     public String toString() {
-        return String.format("%s, ID: %s, Weight: %f", assignmentName, assignmentId, weight);
+        return String.format("%s, ID: %s, Weight: %.1f%%", assignmentName, assignmentId, weight);
     }
 }
