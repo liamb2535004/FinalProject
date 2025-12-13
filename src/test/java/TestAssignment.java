@@ -46,7 +46,7 @@ public class TestAssignment {
     }
 
     @Test
-    @DisplayName("scores > 0 && scores < 100")
+    @DisplayName("scores > 0 && scores < 100 -> true")
     void testGenerateRandomScore2() {
         Assignment assignment = new Assignment("Test Assignment", 5.0);
         int numStudents = 10;
@@ -62,5 +62,20 @@ public class TestAssignment {
         boolean expected = true;
 
         Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("assignment1,getScores != assignment2.getScores -> true")
+    void testGenerateRandomScore3() {
+        int numStudents = 10;
+        Assignment assignment1 = new Assignment("assignment1", 5.0);
+        assignment1.generateRandomScore(numStudents);
+        List<Integer> scores = assignment1.getScores();
+
+        Assignment assignment2 = new Assignment("assignment2", 5.0);
+        assignment2.generateRandomScore(numStudents);
+        List<Integer> scores2 = assignment2.getScores();
+
+        Assertions.assertNotEquals(assignment1, assignment2);
     }
 }
