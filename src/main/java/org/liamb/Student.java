@@ -21,6 +21,14 @@ public class Student {
         this.registeredCourses = new ArrayList<>();
     }
 
+    public boolean registerCourse(Course course) {
+        if (course == null || this.registeredCourses.contains(course)) {
+            return false;
+        }
+        this.registeredCourses.add(course);
+        return course.registerStudent(this);
+    }
+
     public enum Gender {
         FEMALE,
         MALE
