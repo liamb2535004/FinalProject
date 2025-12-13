@@ -5,19 +5,17 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.liamb.util.Util;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @ToString
 @EqualsAndHashCode
-@Getter
 public class Student {
-    private String studentId;
-    private String studentName;
-    private Gender gender;
-    private Address address;
-    @Setter private Department department;
+    @Getter private final String studentId;
+    @Getter private String studentName;
+    @Getter private final Gender gender;
+    @Getter private final Address address;
+    @Setter @Getter private Department department;
     private final List<Course> registeredCourses;
     private static int nextId = 1;
 
@@ -62,5 +60,10 @@ public class Student {
 
     public void setStudentName(String studentName) {
         this.studentName = Util.toTitleCase(studentName);
+    }
+
+    //to avoid calling getRegisteredCourses.clear()
+    public List<Course> getRegisteredCourses() {
+        return List.copyOf(registeredCourses);
     }
 }
