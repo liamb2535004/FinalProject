@@ -62,6 +62,10 @@ public class Assignment {
 
     @Override
     public String toString() {
-        return String.format("%s, ID: %s, Weight: %.1f%%", assignmentName, assignmentId, weight);
+        return "Assignment{" +
+                "assignmentId='" + assignmentId + '\'' +
+                ", assignmentName='" + assignmentName + '\'' +
+                ", weight=" + weight +
+                '}';
     }
 }
