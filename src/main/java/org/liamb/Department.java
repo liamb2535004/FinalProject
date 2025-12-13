@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.liamb.util.Util;
 
 @ToString
 @EqualsAndHashCode
@@ -16,7 +17,7 @@ public class Department {
     public Department(String departmentName) {
         if (isDepartmentNameValid(departmentName)) {
             this.departmentId = String.format("D%02d", nextId++);
-            this.departmentName = departmentName;
+            this.departmentName = Util.toTitleCase(departmentName);
         } else {
             this.departmentId = null;
             this.departmentName = null;
