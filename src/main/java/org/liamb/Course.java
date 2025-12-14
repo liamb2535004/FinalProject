@@ -1,18 +1,19 @@
 package org.liamb;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.liamb.util.Util;
 
-import java.lang.module.FindException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.function.DoubleFunction;
 
+@EqualsAndHashCode
 public class Course {
-    private String courseId;
-    private String courseName;
-    private double credits;
-    private Department department;
+    @Getter private String courseId;
+    @Getter private String courseName;
+    @Getter @Setter private double credits;
+    @Getter private Department department;
     private List<Assignment> assignments;
     private List<Student> registeredStudents;
 
@@ -26,7 +27,7 @@ public class Course {
         this.department = department;
         this.assignments = new ArrayList<>();
         this.registeredStudents = new ArrayList<>();
-        this.finalScores = new int[0];
+        this.finalScores = null;
     }
 
     public boolean isAssignmentWeightValid() {
@@ -34,7 +35,7 @@ public class Course {
         for (Assignment assignment : assignments) {
             totalWeight += assignment.getWeight();
         }
-        return (totalWeight == 100);
+        return Math.abs(totalWeight - 100.0) < 0.001;
     }
 
     public boolean registerStudent(Student student) {
@@ -46,21 +47,26 @@ public class Course {
         for (Assignment assignment : this.assignments) {
             assignment.getScores().add(null);
         }
-        return true;
+        return student.registerCourse(this);
     }
 
     public boolean dropStudent(Student student) {
         if (student == null) {
             return false;
         }
-        this.registeredStudents.remove(student);
 
         int index = this.registeredStudents.indexOf(student);
+        if (index == -1) {
+            return false;
+        }
+
+        this.registeredStudents.remove(index);
+
         for (Assignment assignment : this.assignments) {
             List<Integer> assignmentScores = assignment.getScores();
             assignmentScores.remove(index);
         }
-        return true;
+        return student.dropCourse(this);
     }
 
     public int[] calcStudentsAverage() {
@@ -98,7 +104,7 @@ public class Course {
             return false;
         }
 
-        Assignment newAssignment = new Assignment(assignmentName, weight);
+        Assignment newAssignment = new Assignment(Util.toTitleCase(assignmentName), weight);
         for (Student student : this.registeredStudents) {
             newAssignment.getScores().add(null);
         }
@@ -109,6 +115,7 @@ public class Course {
 
     public void generateScores() {
         if (this.assignments.isEmpty() || this.registeredStudents.isEmpty() || !isAssignmentWeightValid()) {
+            this.finalScores = null;
             return;
         }
 
@@ -118,14 +125,14 @@ public class Course {
 
         this.finalScores = this.calcStudentsAverage();
         if (this.finalScores.length != this.registeredStudents.size()) {
-            this.finalScores = new int[0];
+            this.finalScores = null;
         }
     }
 
     public void displayScores() {
         if (this.registeredStudents.isEmpty() || this.assignments.isEmpty()) {
             System.out.println("\nCourse: " + this.courseName + "(" + this.courseId + ")");
-            System.out.println("Cannot display scores: No students or assignments");
+            System.out.println("Cannot display scores: No students or no assignments");
             return;
         }
 
@@ -239,5 +246,24 @@ public class Course {
                 "\nregisteredStudents=\n" + studentsStr +
                 "\nAssignment Weight=" + weightStatus +
                 "\n";
+    }
+
+    //unmodifiable getters
+    public List<Assignment> getAssignments() {
+        return List.copyOf(assignments);
+    }
+
+    public List<Student> getRegisteredStudents() {
+        return List.copyOf(registeredStudents);
+    }
+
+    //setters with Util.toTitleCase
+    public void setDepartment(Department department) {
+        this.department = department;
+        Util.toTitleCase(department.getDepartmentName());
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = Util.toTitleCase(courseName);
     }
 }
