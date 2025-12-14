@@ -259,6 +259,9 @@ public class Course {
     }
 
     public int[] getFinalScores() {
+        if (this.finalScores == null) {
+            return new int[0];
+        }
         return Arrays.copyOf(finalScores, finalScores.length);
     }
 
