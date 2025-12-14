@@ -8,7 +8,6 @@ import org.liamb.util.Util;
 import java.util.ArrayList;
 import java.util.List;
 
-@ToString
 @EqualsAndHashCode
 public class Student {
     @Getter private final String studentId;
@@ -47,9 +46,33 @@ public class Student {
 
     public String toSimplifiedString() {
         return "Student{" +
-                "studentId='" + studentId + '\'' +
-                ", studentName='" + studentName + '\'' +
-                ", department=" + department +
+                ", studentId=" + studentId +
+                ", studentName=" + studentName +
+                "departmentName=" + department.getDepartmentName() +
+                '}';
+    }
+
+    @Override
+    public String toString() {
+        String coursesStr = "";
+        int numCourses = this.registeredCourses.size();
+
+        for (int i = 0; i < numCourses; i++) {
+            Course course = this.registeredCourses.get(i);
+            coursesStr += course.toSimplifiedString();
+
+            if (i < numCourses - 1) {
+                coursesStr += "\n";
+            }
+        }
+
+        return "Student{" +
+                "studentId=" + studentId +
+                ", studentName=" + studentName +
+                ", gender=" + gender +
+                "\naddress=" + address +
+                "\ndepartment=" + department +
+                "\nregisteredCourses=\n" + coursesStr +
                 '}';
     }
 
