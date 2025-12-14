@@ -14,7 +14,7 @@ public class Course {
     @Getter private String courseId;
     @Getter private String courseName;
     @Getter @Setter private double credits;
-    @Getter private Department department;
+    @Getter @Setter private Department department;
     private List<Assignment> assignments;
     private List<Student> registeredStudents;
 
@@ -48,7 +48,8 @@ public class Course {
         for (Assignment assignment : this.assignments) {
             assignment.getScores().add(null);
         }
-        return student.registerCourse(this);
+        student.registerCourse(this);
+        return true;
     }
 
     public boolean dropStudent(Student student) {
@@ -271,12 +272,6 @@ public class Course {
             return new int[0];
         }
         return Arrays.copyOf(finalScores, finalScores.length);
-    }
-
-    //setters with Util.toTitleCase
-    public void setDepartment(Department department) {
-        this.department = department;
-        Util.toTitleCase(department.getDepartmentName());
     }
 
     public void setCourseName(String courseName) {
