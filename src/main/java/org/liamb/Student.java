@@ -33,7 +33,8 @@ public class Student {
             return false;
         }
         this.registeredCourses.add(course);
-        return course.registerStudent(this);
+        course.registerStudent(this);
+        return true;
     }
 
     public boolean dropCourse(Course course) {
@@ -42,7 +43,8 @@ public class Student {
         }
 
         this.registeredCourses.remove(course);
-        return course.dropStudent(this);
+        course.dropStudent(this);
+        return true;
     }
 
     public String toSimplifiedString() {
@@ -74,7 +76,7 @@ public class Student {
                 "\naddress=" + address +
                 "\ndepartment=" + department +
                 "\nregisteredCourses=\n" + coursesStr +
-                '}';
+                '}' + "\n";
     }
 
     public enum Gender {
