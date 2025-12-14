@@ -27,13 +27,13 @@ public class Assignment {
      */
     public double calcAssignmentAvg() {
         if (scores.isEmpty()) {
-            return 0;
+            return 0.0;
         }
-        double sum = 0;
-        for (int score : scores) {
-            sum += score;
+        double totalScore = 0.0;
+        for (Integer score : scores) {
+            totalScore += (score != null) ? score : 0;
         }
-        return sum / scores.size();
+        return totalScore / scores.size();
     }
 
     /**
