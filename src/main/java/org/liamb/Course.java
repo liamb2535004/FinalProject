@@ -5,6 +5,7 @@ import org.liamb.util.Util;
 import java.lang.module.FindException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.DoubleFunction;
 
 public class Course {
     private String courseId;
@@ -118,5 +119,70 @@ public class Course {
         if (this.finalScores.length != this.registeredStudents.size()) {
             this.finalScores = new int[0];
         }
+    }
+
+    public void displayScores() {
+        if (this.registeredStudents.isEmpty() || this.assignments.isEmpty()) {
+            System.out.println("\nCourse: " + this.courseName + "(" + this.courseId + ")");
+            System.out.println("Cannot display scores: No students or assignments");
+            return;
+        }
+
+        if (this.finalScores == null || this.finalScores.length == 0) {
+            System.out.println("\nCourse: " + this.courseName + "(" + this.courseId + ")");
+            System.out.println("Cannot display scores: scores not calculated. call generateScores()");
+            return;
+        }
+
+        int studentNameWidth = 0;
+        for (Student student : this.registeredStudents) {
+            if (student.getStudentName().length() > studentNameWidth - 2) {
+                studentNameWidth = student.getStudentName().length() + 2;
+            }
+        }
+
+        int scoreColumnWidth = 0;
+        for (Assignment assignment : this.assignments) {
+            if (assignment.getAssignmentName().length() > scoreColumnWidth - 2) {
+                scoreColumnWidth = assignment.getAssignmentName().length() + 2;
+            }
+        }
+
+        if (scoreColumnWidth < "Final Score".length() + 2) {
+            scoreColumnWidth = "Final Score".length() + 2;
+        }
+
+        String nameFormat = "%-" + studentNameWidth + "s";
+        String scoreFormat = "%" + scoreColumnWidth + "s";
+
+        System.out.println("\nCourse: " + this.courseName + "(" + this.courseId + ")");
+        System.out.printf(nameFormat, "");
+        for (Assignment assignment : this.assignments) {
+            System.out.printf(scoreFormat, assignment.getAssignmentName());
+        }
+
+        System.out.printf(scoreFormat, "Final Score\n");
+        for (int i = 0; i < this.registeredStudents.size(); i++) {
+            Student student = this.registeredStudents.get(i);
+            System.out.printf(nameFormat, student.getStudentName());
+
+            for (int j = 0; j < this.assignments.size(); j++) {
+                Assignment assignment = this.assignments.get(j);
+                Integer score = assignment.getScores().get(i);
+                String scoreStr = (score != null) ? String.valueOf(score) : "null";
+                System.out.printf(scoreFormat, scoreStr);
+            }
+
+            int finalScore = this.finalScores[i];
+            System.out.printf(scoreFormat, finalScore);
+            System.out.println();
+        }
+        System.out.printf(nameFormat, "Average");
+        for (Assignment assignment : this.assignments) {
+            int averageScore = (int) assignment.calcAssignmentAvg();
+            System.out.printf(scoreFormat, averageScore);
+        }
+        System.out.printf(scoreFormat, "");
+        System.out.println();
     }
 }
