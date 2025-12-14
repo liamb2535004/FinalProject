@@ -13,8 +13,9 @@ public class Course {
     private Department department;
     private List<Assignment> assignments;
     private List<Student> registeredStudents;
+
     private static int nextId = 1;
-    private List<Double> finalScores;
+    private int[] finalScores;
 
     public Course(String courseName, double credits, Department department) {
         this.courseId = String.format("C-%s-%02d", department.getDepartmentId(), nextId++);
@@ -23,6 +24,7 @@ public class Course {
         this.department = department;
         this.assignments = new ArrayList<>();
         this.registeredStudents = new ArrayList<>();
+        this.finalScores = new int[0];
     }
 
     public boolean isAssignmentWeightValid() {
@@ -34,15 +36,13 @@ public class Course {
     }
 
     public boolean registerStudent(Student student) {
-        if (student == null || this.registeredStudents.contains(student)) {
+        if (this.registeredStudents.contains(student)) {
             return false;
         }
         this.registeredStudents.add(student);
-        this.finalScores.add(-1.0);
 
         for (Assignment assignment : this.assignments) {
-            List<Integer> assignmentScores = assignment.getScores();
-            assignmentScores.add(-1);
+            assignment.getScores().add(null);
         }
         return true;
     }
@@ -101,6 +101,22 @@ public class Course {
             newAssignment.getScores().add(null);
         }
 
+        this.assignments.add(newAssignment);
         return true;
+    }
+
+    public void generateScores() {
+        if (this.assignments.isEmpty() || this.registeredStudents.isEmpty() || !isAssignmentWeightValid()) {
+            return;
+        }
+
+        for (Assignment assignment : this.assignments) {
+            assignment.generateRandomScore(this.registeredStudents.size());
+        }
+
+        this.finalScores = this.calcStudentsAverage();
+        if (this.finalScores.length != this.registeredStudents.size()) {
+            this.finalScores = new int[0];
+        }
     }
 }
