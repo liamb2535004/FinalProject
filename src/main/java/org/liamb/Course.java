@@ -145,32 +145,39 @@ public class Course {
 
         int studentNameWidth = 0;
         for (Student student : this.registeredStudents) {
-            if (student.getStudentName().length() > studentNameWidth - 2) {
-                studentNameWidth = student.getStudentName().length() + 2;
+            if (student.getStudentName().length() > studentNameWidth) {
+                studentNameWidth = student.getStudentName().length();
             }
         }
+        studentNameWidth += 2;
 
         int scoreColumnWidth = 0;
         for (Assignment assignment : this.assignments) {
-            if (assignment.getAssignmentName().length() > scoreColumnWidth - 2) {
-                scoreColumnWidth = assignment.getAssignmentName().length() + 2;
+            if (assignment.getAssignmentName().length() > scoreColumnWidth) {
+                scoreColumnWidth = assignment.getAssignmentName().length();
+            }
+            if (4 > scoreColumnWidth) {
+                scoreColumnWidth = 4;
             }
         }
+        scoreColumnWidth += 2;
 
-        if (scoreColumnWidth < "Final Score".length() + 2) {
-            scoreColumnWidth = "Final Score".length() + 2;
+        int finalScoreColumnWidth = scoreColumnWidth;
+        if ("Final Score".length() + 2 > finalScoreColumnWidth) {
+            finalScoreColumnWidth = "Final Score".length() + 2;
         }
 
         String nameFormat = "%-" + studentNameWidth + "s";
         String scoreFormat = "%" + scoreColumnWidth + "s";
+        String finalScoreFormat = "%" + finalScoreColumnWidth + "s";
 
         System.out.println("\nCourse: " + this.courseName + "(" + this.courseId + ")");
         System.out.printf(nameFormat, "");
         for (Assignment assignment : this.assignments) {
             System.out.printf(scoreFormat, assignment.getAssignmentName());
         }
+        System.out.printf(finalScoreFormat, "Final Score\n");
 
-        System.out.printf(scoreFormat, "Final Score\n");
         for (int i = 0; i < this.registeredStudents.size(); i++) {
             Student student = this.registeredStudents.get(i);
             System.out.printf(nameFormat, student.getStudentName());
@@ -183,15 +190,16 @@ public class Course {
             }
 
             int finalScore = this.finalScores[i];
-            System.out.printf(scoreFormat, finalScore);
+            System.out.printf(finalScoreFormat, finalScore);
             System.out.println();
         }
+
         System.out.printf(nameFormat, "Average");
         for (Assignment assignment : this.assignments) {
             int averageScore = (int) assignment.calcAssignmentAvg();
             System.out.printf(scoreFormat, averageScore);
         }
-        System.out.printf(scoreFormat, "");
+        System.out.printf(finalScoreFormat, "");
         System.out.println("\n");
     }
 
@@ -240,7 +248,7 @@ public class Course {
             weightStatus = "INVALID (Total: " + String.format("%.1f", totalWeight) + "%)";
         }
 
-        return "courseId='" + this.courseId + "'" + ", CourseName='" + this.courseName + "'" +
+        return "\ncourseId='" + this.courseId + "'" + ", CourseName='" + this.courseName + "'" +
                  ", credits=" + credits +
                 ", "+ department +
                 "\nassignments=\n" + assignmentsStr +
