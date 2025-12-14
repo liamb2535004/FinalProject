@@ -189,10 +189,10 @@ public class Course {
 
     public String toSimplifiedString() {
         return "Course{" +
-                "courseName=" + courseName + '\'' +
-                ", courseId=" + courseId + '\'' +
-                ", Credits:" + credits +
-                department +
+                "courseName='" + courseName + '\'' +
+                ", courseId='" + courseId + '\'' +
+                ", Credits=" + credits +
+                ", departmentName=" + department.getDepartmentName() +
                 '}';
     }
 
