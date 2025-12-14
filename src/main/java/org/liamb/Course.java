@@ -90,4 +90,17 @@ public class Course {
         }
         return finalScores;
     }
+
+    public boolean addAssignment(String assignmentName, double weight) {
+        if (assignmentName == null || assignmentName.isBlank() || weight <= 0) {
+            return false;
+        }
+
+        Assignment newAssignment = new Assignment(assignmentName, weight);
+        for (Student student : this.registeredStudents) {
+            newAssignment.getScores().add(null);
+        }
+
+        return true;
+    }
 }
