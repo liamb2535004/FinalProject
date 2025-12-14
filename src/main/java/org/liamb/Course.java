@@ -60,4 +60,34 @@ public class Course {
         }
         return true;
     }
+
+    public int[] calcStudentsAverage() {
+        if (!isAssignmentWeightValid()) {
+            return new int[0];
+        }
+
+        int numStudents = this.registeredStudents.size();
+        if (numStudents == 0) {
+            return new int[0];
+        }
+
+        int[] finalScores = new int[numStudents];
+
+        for (int i = 0; i < numStudents; i++) {
+            double weightedSum = 0.0;
+
+            for (int j = 0; j < this.assignments.size(); j++) {
+                Assignment currentAssignment = this.assignments.get(j);
+
+                if (currentAssignment.getScores().size() > i && currentAssignment.getScores().get(i) != null) {
+                    int studentScore = currentAssignment.getScores().get(i);
+                    double weight = currentAssignment.getWeight();
+                    double weightedScore = studentScore * (weight / 100.0);
+                    weightedSum += weightedScore;
+                }
+            }
+            finalScores[i] = (int) Math.round(weightedSum);
+        }
+        return finalScores;
+    }
 }
