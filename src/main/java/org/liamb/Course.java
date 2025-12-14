@@ -4,6 +4,7 @@ import org.liamb.util.Util;
 
 import java.lang.module.FindException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.DoubleFunction;
 
@@ -183,6 +184,60 @@ public class Course {
             System.out.printf(scoreFormat, averageScore);
         }
         System.out.printf(scoreFormat, "");
-        System.out.println();
+        System.out.println("\n");
+    }
+
+    public String toSimplifiedString() {
+        return "Course{" +
+                "courseName=" + courseName + '\'' +
+                ", courseId=" + courseId + '\'' +
+                ", Credits:" + credits +
+                department +
+                '}';
+    }
+
+    @Override
+    public String toString() {
+        String studentsStr = "";
+        int numStudents = this.registeredStudents.size();
+        for (int i = 0; i < numStudents; i++) {
+            Student student = this.registeredStudents.get(i);
+            studentsStr += student.toSimplifiedString();
+
+            if (i < numStudents - 1) {
+                studentsStr += "\n";
+            }
+        }
+
+        String assignmentsStr = "";
+        int numAssingments = this.assignments.size();
+        for (int i = 0; i < numAssingments; i++) {
+            Assignment assignment = this.assignments.get(i);
+            assignmentsStr += assignment.toString();
+
+            if (i < numAssingments - 1) {
+                assignmentsStr += "\n";
+            }
+        }
+
+        double totalWeight = 0.0;
+        for (Assignment assignment : this.assignments) {
+            totalWeight += assignment.getWeight();
+        }
+
+        String weightStatus;
+        if (this.isAssignmentWeightValid()) {
+            weightStatus = "VALID: Total: 100%";
+        } else {
+            weightStatus = "INVALID (Total: " + String.format("%.1f", totalWeight) + "%)";
+        }
+
+        return "courseId='" + this.courseId + "'" + ", CourseName='" + this.courseName + "'" +
+                 ", credits=" + credits +
+                ", "+ department +
+                "\nassignments=\n" + assignmentsStr +
+                "\nregisteredStudents=\n" + studentsStr +
+                "\nAssignment Weight=" + weightStatus +
+                "\n";
     }
 }
