@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.liamb.util.Util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @EqualsAndHashCode
@@ -255,6 +256,10 @@ public class Course {
 
     public List<Student> getRegisteredStudents() {
         return List.copyOf(registeredStudents);
+    }
+
+    public int[] getFinalScores() {
+        return Arrays.copyOf(finalScores, finalScores.length);
     }
 
     //setters with Util.toTitleCase
