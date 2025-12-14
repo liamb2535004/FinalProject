@@ -90,20 +90,4 @@ public class Student {
     public List<Course> getRegisteredCourses() {
         return List.copyOf(registeredCourses);
     }
-
-    //custom Equals method that only checks studentId to prevent bug in dropStudent method where Student cannot be found
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Student student = (Student) o;
-        return Objects.equals(studentId, student.studentId);
-    }
-
-    @Override
-    public int hashCode() {
-        return studentId.hashCode();
-    }
-
-
 }
