@@ -34,6 +34,12 @@ public class Address {
     public void setPostalCode(String postalCode) {
         if (isPostalCodeValid(postalCode)) {
             this.postalCode = postalCode.toUpperCase();
+        } else {
+            this.streetNo = 0;
+            this.street = null;
+            this.city = null;
+            this.province = null;
+            this.postalCode = null;
         }
     }
 
@@ -48,20 +54,16 @@ public class Address {
         }
 
         for (int idx = 0; idx < postalCode.length(); idx++) {
+            char c = postalCode.charAt(idx);
+            boolean isLetterIndex = idx % 2 == 0;
 
-            if (idx % 2 == 0) {
-                if (!Character.isLetter(postalCode.charAt(idx))) {
-                    return false;
-                }
+            if (isLetterIndex && !Character.isLetter(c)) {
+                return false;
             }
-
-            if (idx % 2 != 0) {
-                if (!Character.isDigit(postalCode.charAt(idx))) {
-                    return false;
-                }
+            if (!isLetterIndex && !Character.isDigit(c)) {
+                return false;
             }
         }
-
         return true;
     }
 
