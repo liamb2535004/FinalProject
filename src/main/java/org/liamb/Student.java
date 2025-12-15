@@ -28,6 +28,15 @@ public class Student {
         this.registeredCourses = new ArrayList<>();
     }
 
+    /**
+     * registers a student for a course. Adds the student to
+     * the registeredStudents list for the course and adds the course to the
+     * student's list of registeredCourses
+     * @param course the course to be added to the student's list of registered courses and
+     * that will add the student to their registered students.
+     * @return true if the course has been registered, false if the course has not been
+     * registered due to an invalid operation
+     */
     public boolean registerCourse(Course course) {
         if (course == null || this.registeredCourses.contains(course)) {
             return false;
@@ -37,6 +46,14 @@ public class Student {
         return true;
     }
 
+    /**
+     * Drops a course from a students list of registeredCourses and removes the student from
+     * the course's list of registered Students.
+     * @param course the course to be removed from the list of registered courses and that
+     * will remove the student from their list of registered students.
+     * @return true if the course has been dropped and false if the course has not been dropped due to
+     * an invalid operation
+     */
     public boolean dropCourse(Course course) {
         if (course == null || !this.registeredCourses.contains(course)) {
             return false;
@@ -47,6 +64,10 @@ public class Student {
         return true;
     }
 
+    /**
+     * toString method that only includes the studentId, studentName and departmentName
+     * @return a string containing the studentId, studentName and departmentName
+     */
     public String toSimplifiedString() {
         return "Student{" +
                 ", studentId=" + studentId +
