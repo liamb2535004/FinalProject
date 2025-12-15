@@ -11,12 +11,12 @@ import java.util.List;
 
 @EqualsAndHashCode
 public class Course {
-    @Getter private String courseId;
+    @Getter private final String courseId;
     @Getter private String courseName;
     @Getter @Setter private double credits;
     @Getter @Setter private Department department;
-    private List<Assignment> assignments;
-    private List<Student> registeredStudents;
+    private final List<Assignment> assignments;
+    private final List<Student> registeredStudents;
 
     private static int nextId = 1;
     private int[] finalScores;
@@ -31,6 +31,10 @@ public class Course {
         this.finalScores = null;
     }
 
+    /**
+     * verifies if the total weight of the assignments adds up to 100%.
+     * @return if the total weight of the assignments doesn't add up to 100%, returns false. Otherwise, returns true.
+     */
     public boolean isAssignmentWeightValid() {
         double totalWeight = 0.0;
         for (Assignment assignment : assignments) {
@@ -39,8 +43,16 @@ public class Course {
         return Math.abs(totalWeight - 100.0) < 0.001;
     }
 
+    /**
+     * registers a student for a course. The student will be added to the course's
+     * registeredStudents list and the course will be added to the student's registeredCourses list
+     * @param student the student to be added to the course's registeredStudents list and
+     *  that will add the course to their registeredCourses list.
+     * @return true if the student has been registered, false if they have not been
+     * registered due to an invalid student or if the student has already been registered.
+     */
     public boolean registerStudent(Student student) {
-        if (this.registeredStudents.contains(student)) {
+        if (student == null || this.registeredStudents.contains(student)) {
             return false;
         }
         this.registeredStudents.add(student);
@@ -52,6 +64,13 @@ public class Course {
         return true;
     }
 
+    /**
+     * drops a student from the course, removing them from the registeredStudents list of the course
+     * and removing the course from their registeredCourses list.
+     * @param student the student to be dropped from the course.
+     * @return true if the student has been dropped, false if the student has not been dropped because
+     * of an invalid student or a non-existant student.
+     */
     public boolean dropStudent(Student student) {
         if (student == null) {
             return false;
@@ -68,9 +87,14 @@ public class Course {
             List<Integer> assignmentScores = assignment.getScores();
             assignmentScores.remove(index);
         }
-        return student.dropCourse(this);
+        student.dropCourse(this);
+        return true;
     }
 
+    /**
+     * calculates the average score of all students for an assignment
+     * @return the average score of all students for an assignment
+     */
     public int[] calcStudentsAverage() {
         if (!isAssignmentWeightValid()) {
             return new int[0];
@@ -90,7 +114,7 @@ public class Course {
                 Assignment currentAssignment = this.assignments.get(j);
 
                 if (currentAssignment.getScores().size() > i && currentAssignment.getScores().get(i) != null) {
-                    int studentScore = currentAssignment.getScores().get(i);
+                    Integer studentScore = currentAssignment.getScores().get(i);
                     double weight = currentAssignment.getWeight();
                     double weightedScore = studentScore * (weight / 100.0);
                     weightedSum += weightedScore;
@@ -101,6 +125,13 @@ public class Course {
         return finalScores;
     }
 
+    /**
+     * adds an assignment to a course. Creates null placeholder values for the students scores.
+     * @param assignmentName the name of the assignment
+     * @param weight the weight of the assignment out of the total 100%
+     * @return true if the assignment has been added, false if the assignment has not been
+     * added due to an invalid assignment name or weight.
+     */
     public boolean addAssignment(String assignmentName, double weight) {
         if (assignmentName == null || assignmentName.isBlank() || weight <= 0) {
             return false;
@@ -115,6 +146,9 @@ public class Course {
         return true;
     }
 
+    /**
+     * generates random scores for all the assignments of all students.
+     */
     public void generateScores() {
         if (this.assignments.isEmpty() || this.registeredStudents.isEmpty() || !isAssignmentWeightValid()) {
             this.finalScores = null;
@@ -131,6 +165,9 @@ public class Course {
         }
     }
 
+    /**
+     * prints a formatted table of a course containing all students, assignments and scores
+     */
     public void displayScores() {
         if (this.registeredStudents.isEmpty() || this.assignments.isEmpty()) {
             System.out.println("\nCourse: " + this.courseName + "(" + this.courseId + ")");
