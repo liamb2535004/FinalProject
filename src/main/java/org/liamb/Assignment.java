@@ -37,7 +37,7 @@ public class Assignment {
     }
 
     /**
-     * generate a random score for every student that has the assignment.
+     * generate a random score for the number of students that has the assignment.
      * @param numStudents the amount of scores to generate, corresponding to the
      * amount of students that have been given the assignment.
      */
