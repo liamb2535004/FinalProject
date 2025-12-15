@@ -35,7 +35,7 @@ public class Student {
      * @param course the course to be added to the student's list of registered courses and
      * that will add the student to their registered students.
      * @return true if the course has been registered, false if the course has not been
-     * registered due to an invalid operation
+     * registered due to an invalid course or if the course is already registered.
      */
     public boolean registerCourse(Course course) {
         if (course == null || this.registeredCourses.contains(course)) {
@@ -52,7 +52,7 @@ public class Student {
      * @param course the course to be removed from the list of registered courses and that
      * will remove the student from their list of registered students.
      * @return true if the course has been dropped and false if the course has not been dropped due to
-     * an invalid operation
+     * an invalid course or if the course to be dropped is not registered.
      */
     public boolean dropCourse(Course course) {
         if (course == null || !this.registeredCourses.contains(course)) {
