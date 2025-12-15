@@ -38,7 +38,6 @@ public class Department {
                 return false;
             }
         }
-
         return true;
     }
 }

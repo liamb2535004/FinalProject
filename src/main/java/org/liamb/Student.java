@@ -3,11 +3,9 @@ package org.liamb;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.liamb.util.Util;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @EqualsAndHashCode
 public class Student {

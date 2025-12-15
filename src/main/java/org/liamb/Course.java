@@ -4,7 +4,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.liamb.util.Util;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -60,6 +59,7 @@ public class Course {
         for (Assignment assignment : this.assignments) {
             assignment.getScores().add(null);
         }
+        this.finalScores = null;
         student.registerCourse(this);
         return true;
     }
